@@ -26,7 +26,7 @@ Test 2) In another terminal, run the injector: ``./K55 k55_test_process``<br/>
 
 ### Shell Spawned In Target
 <p align="center">
-    <img src="https://github.com/josh0xA/K55/blob/main/imgs/target_proof.png?raw=true">
+    <img src="https://github.com/josh0xA/K55/blob/main/imgs/target_proof1.png?raw=true">
 </p>
 
 ## Crafting The Shell Payload
