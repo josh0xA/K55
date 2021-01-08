@@ -20,7 +20,7 @@ Test 2) In another terminal, run the injector: ``./K55 k55_test_process``<br/>
 ## Crafting The Shell Payload
 Note: The following is a demonstration. The payload string is already hardcoded into K55.
 
-### Assembly of The Payload ([Cited from shell-storm (redirect)](http://shell-storm.org/shellcode/files/shellcode-806.php))
+###$ Assembly Implementation of The Payload ([Cited from shell-storm (redirect)](http://shell-storm.org/shellcode/files/shellcode-806.php))
 ```asm
 main:
     xor eax, eax
