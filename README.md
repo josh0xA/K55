@@ -17,6 +17,10 @@ The K55 payload injection tool is used for injecting x86_64 shellcode payloads i
 Test 1) In one terminal (K55/ Directory), run: ``./k55_example_process/k55_test_process``<br/>
 Test 2) In another terminal, run the injector: ``./K55 k55_test_process``<br/>
 
+## K55 In Action
+- A shell is spawned in k55_test_process when the K55 shellcode injector is ran (as root). 
+
+
 ## Crafting The Shell Payload
 Note: The following is a demonstration. The payload string is already hardcoded into K55.
 
