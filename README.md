@@ -65,3 +65,7 @@ int main()
 }
 
 ```
+
+## License 
+MIT License <br/>
+2021 (c) Josh Schiavone
