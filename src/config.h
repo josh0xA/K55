@@ -17,6 +17,7 @@
 #define K55_STANDARD_SUCCESS_CODE 0
 #define K55_STANDARD_ERROR_CODE -1
 
+// For cmdline handling
 #define K55_MIN_ARGUMENT_COUNT 2
 
 #define SET_DEBUG_VALUE(s_val, k_val) ((s_val) = (k_val))
