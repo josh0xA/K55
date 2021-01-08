@@ -66,8 +66,8 @@ int main()
 
 ```
 ## References
-http://shell-storm.org/shellcode/files/shellcode-806.php
-https://0x00sec.org/t/linux-infecting-running-processes/1097
+http://shell-storm.org/shellcode/files/shellcode-806.php <br/>
+https://0x00sec.org/t/linux-infecting-running-processes/1097 <br/>
 
 ## License 
 MIT License <br/>
