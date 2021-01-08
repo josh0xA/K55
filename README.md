@@ -8,6 +8,11 @@ The K55 payload injection tool is used for injecting x86_64 shellcode payloads i
 2. ``cd K55``<br/>
 3. ``chmod +x build-install.sh``<br/>
 4. ``./build-install.sh``<br/>
+
+## K55 Usage
+``Usage: ./K55 <process-name>``<br/>
+- process-name can be any linux process with ``r-xp`` or ``execstack`` permissions. <br/>
+
 ### Tests
-5. In one terminal (K55/ Directory), run: ``./k55_example_process/k55_test_process``<br/>
-7. In another terminal, run the injector: ``./K55``<br/>
+Test 1) In one terminal (K55/ Directory), run: ``./k55_example_process/k55_test_process``<br/>
+Test 2) In another terminal, run the injector: ``./K55 k55_test_process``<br/>
