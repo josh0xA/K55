@@ -19,6 +19,8 @@ Test 2) In another terminal, run the injector: ``./K55 k55_test_process``<br/>
 
 ## K55 In Action
 - A shell is spawned in k55_test_process when the K55 shellcode injector is ran (as root). 
+[InActionInjector] (https://github.com/josh0xA/K55/blob/main/imgs/injector_proof.png?raw=true)
+[InActionTarget] (https://github.com/josh0xA/K55/blob/main/imgs/target_proof.png?raw=true)
 
 
 ## Crafting The Shell Payload
