@@ -9,6 +9,11 @@
 
  #include "utility.h"
 
+ bool UTL::User::root_privileges() {
+   if (getuid()) { return false; }
+   else { return true; }
+ }
+
  k55_process UTL::Utility::get_process_id_by_name(const std::string& process_name)
  {
    default_status = n_invalid_var_any;

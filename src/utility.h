@@ -48,6 +48,11 @@ namespace UTL {
 
   }; // class Utility
 
+  class User {
+  public:
+    bool root_privileges();
+  };
+
 } // namespace UTL
 
 #endif
