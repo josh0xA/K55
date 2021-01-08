@@ -22,7 +22,8 @@ Test 2) In another terminal, run the injector: ``./K55 k55_test_process``<br/>
 ### Injecting Into Given Process
 <p align="center">
     <img src="https://github.com/josh0xA/K55/blob/main/imgs/injector_proof.png?raw=true">
-</p>
+</p> 
+<br/>
 ### Shell Spawned In Target
 <p align="center">
     <img src="https://github.com/josh0xA/K55/blob/main/imgs/target_proof.png?raw=true">
