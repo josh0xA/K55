@@ -18,7 +18,7 @@ Test 1) In one terminal (K55/ Directory), run: ``./k55_example_process/k55_test_
 Test 2) In another terminal, run the injector: ``./K55 k55_test_process``<br/>
 
 ## Crafting The Shell Payload
-Note: The following shellcode is a demonstration. The payload string is already hardcoded into K55.
+Note: The following is a demonstration. The payload string is already hardcoded into K55.
 
 ### Assembly of The Payload ([Cited from shell-storm (redirect)](http://shell-storm.org/shellcode/files/shellcode-806.php))
 ```asm
