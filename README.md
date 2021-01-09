@@ -1,6 +1,6 @@
 ## K55 - Linux x86_64 Process Injection Utility (C++11)
 <p align="center">
-  <img src="https://github.com/josh0xA/K55/blob/master/imgs/k55logo.png?raw=true">
+  <img src="https://github.com/josh0xA/K55/blob/main/imgs/k55logo.png?raw=true">
 </p>
 ## About K55 
 (pronounced: "kay fifty-five")<br/>
