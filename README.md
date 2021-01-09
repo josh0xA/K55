@@ -31,7 +31,7 @@ Test 2) In another terminal, run the injector: ``./K55 k55_test_process``<br/>
 </p>
 
 ## Limitations
-Obviously, ``ptrace(PTRACE_POKETEXT...)`` are not the most disguised. So, some applications can limit the effect of K55. Although, for security testing, make sure to turn on ``execstack`` for your target applications. For example if I'm testing on gdb, before I would inject, I would run the following: ``sudo execstack -s /usr/bin/gdb``. Install execstack with from you distrobutions package manager. For Arch Linux users, you can find execstack on the AUR. 
+Obviously, ``ptrace(PTRACE_POKETEXT...)`` calls are not the most disguised. So, some applications can limit the effect of K55. Although, for security testing, make sure to turn on ``execstack`` for your target applications. For example if I'm testing on gdb, before I would inject, I would run the following: ``sudo execstack -s /usr/bin/gdb``. Install execstack from you distrobutions package manager. For Arch Linux users, you can find execstack on the AUR. 
 
 ## Crafting The Shell Payload
 Note: The following is a demonstration. The payload string is already hardcoded into K55.
