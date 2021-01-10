@@ -44,7 +44,7 @@ namespace SCI {
     _K55_STATE_BOUND default_status;
   }; // class Kernel
 
-  class Process {
+  class Process : protected Kernel {
   public:
     /*
     Return the maxium possible process ID number for either x86 or
@@ -70,12 +70,10 @@ namespace SCI {
     int process_space_a = -1;
     int process_space_b = -1;
 
-  protected:
-    _K55_STATE_BOUND default_status;
 
   }; // class Process
 
-  class Parser {
+  class Parser : protected Kernel {
   public:
     /*
     Gathers memory address of the code execution flag/perm
@@ -100,13 +98,13 @@ namespace SCI {
     char* maps_line = NULL;
     // TODO: Implement std::ifstream with std::getline rather than, C-style getline
     FILE* maps_file;
-
+  /*
   protected:
     _K55_STATE_BOUND default_status;
-
+  */
   }; // class Parser
 
-  class Injector {
+  class Injector : protected Kernel {
   public:
     /*
     Injects __shellcode__ (the payload) into targets address space
@@ -121,9 +119,9 @@ namespace SCI {
 
     uint64_t* final_payload;
 
-  protected:
-    _K55_STATE_BOUND default_status;
+
 
   }; // class Injector
 
 } // namespace SCI
+
