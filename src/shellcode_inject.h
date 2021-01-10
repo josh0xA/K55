@@ -98,10 +98,7 @@ namespace SCI {
     char* maps_line = NULL;
     // TODO: Implement std::ifstream with std::getline rather than, C-style getline
     FILE* maps_file;
-  /*
-  protected:
-    _K55_STATE_BOUND default_status;
-  */
+
   }; // class Parser
 
   class Injector : protected Kernel {
@@ -118,8 +115,6 @@ namespace SCI {
     std::size_t payload_shell_size;
 
     uint64_t* final_payload;
-
-
 
   }; // class Injector
 
