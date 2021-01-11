@@ -304,7 +304,7 @@ bool SCI::Injector::proc_inject(long target_process_identifier) {
   }
   // Does not throw exceptions...
   std::memcpy(&regs, &old_regs, sizeof(struct user_regs_struct));
-  std::cout << "-> Jumping to RIP Address @ " << (void*)regs.rip << '\n';
+  std::cout << "-> Jumping to RIP Address @ " << reinterpret_cast<void*> (regs.rip) << '\n';
   // Set the 64-bit instrucion pointer to the mem address of execution
   regs.rip = ext.address;
 
