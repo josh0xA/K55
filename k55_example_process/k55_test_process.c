@@ -13,7 +13,7 @@
 #include <unistd.h>
 
 int main() {
-  printf("Patiently waiting to be attacked...\n");
+  printf("Patiently waiting to be attacked...\n\n");
 
   while (1) {
       continue;
