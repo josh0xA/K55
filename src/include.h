@@ -26,7 +26,7 @@
 #include <sys/utsname.h>
 #include <sys/stat.h>
 #include <sys/types.h>
-#include <proc/readproc.h>
+//#include <proc/readproc.h>
 
 #include <dirent.h>
 
