@@ -15,6 +15,7 @@
 #include <limits>
 #include <stdexcept>
 #include <string>
+#include <memory>
 #include <new>
 #include <fstream>
 
