@@ -8,10 +8,10 @@
 The K55 payload injection tool is used for injecting x86_64 shellcode payloads into running processes. The utility was developed using modern C++11 techniques as well as some traditional C linux functions like ``ptrace()``. The shellcode spawned in the target process is 27 bytes and it executes /bin/sh (spawns a bash shell) within the target's address space. In the future, I will allow users to input there own shellcode via command line arguments.<br/>
 
 ## Installation
-1. ``git clone https://github.com/josh0xA/K55.git``<br/>
-2. ``cd K55``<br/>
-3. ``chmod +x build-install.sh``<br/>
-4. ``./build-install.sh``<br/>
+1.  ``git clone https://github.com/josh0xA/K55.git``<br/>
+2.  ``cd K55``<br/>
+3.  ``chmod +x build-install.sh``<br/>
+4.  ``./build-install.sh``<br/>
 
 ## K55 Usage
 ``Usage: ./K55 <process-name>``<br/>
