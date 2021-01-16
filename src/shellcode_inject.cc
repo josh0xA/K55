@@ -282,7 +282,7 @@ bool SCI::Injector::proc_inject(long target_process_identifier) {
     return false;
   } else {
       wait(NULL);
-      std::cout << "-> Attached To Target Proc: " << target_pid << '\n';
+      std::cout << "-> Attached To Target Proc: " << target_pid << " - Max Process ID Allowed: " << pid_max << '\n';
   }
 
   SCI::ptruths ptruths;
@@ -305,7 +305,7 @@ bool SCI::Injector::proc_inject(long target_process_identifier) {
       std::cerr << "Cannot Execute Payload In Address: 0x" << std::hex << ext.address << '\n';
       return false;
     }
-    ptruths.r_xp = true;
+    //ptruths.r_xp = true;
 
   }
   // Does not throw exceptions...

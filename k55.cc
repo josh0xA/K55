@@ -19,7 +19,7 @@ int main(int argc, const char* argv[]) {
   Utility utl;
   User usr;
 
-  long proc_id;
+  k55_short_process proc_id;
 
   if (usr.root_privileges()) {
     if (argc < K55_MIN_ARGUMENT_COUNT) {

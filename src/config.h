@@ -17,7 +17,7 @@
 #define K55_STANDARD_SUCCESS_CODE 0
 #define K55_STANDARD_ERROR_CODE -1
 
-#define K55_MAX_STRING_LEN 0xFF
+#define K55_MAX_STRING_LEN 2048
 
 #define K55_MIN_ARGUMENT_COUNT 2
 
@@ -28,6 +28,7 @@
 
 typedef char* n_buffer;
 typedef long k55_process;
+typedef short k55_short_process;
 typedef DIR *k55_system_dir;
 
 inline bool k55_success_on_return_value(bool s_value) {
