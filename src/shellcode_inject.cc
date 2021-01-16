@@ -150,7 +150,7 @@ char* SCI::Process::return_file_permissions(char* process_line) {
   SCI::extension ext;
   default_status = n_invalid_var_any;
 
-  for (std::size_t m = 0; m < strlen(process_line); m++) {
+  for (std::size_t m = 0; m < strnlen(process_line, K55_MAX_STRING_LEN); m++) {
     if (process_line[m] == ' ' && process_space_a == -1) {
       process_space_a = m + 1;
     }
@@ -182,7 +182,7 @@ long SCI::Parser::retrieve_memory_address(char* line) {
   SCI::extension ext;
   default_status = n_invalid_var_any;
 
-  for (std::size_t m = 0; m < strlen(line); m++) {
+  for (std::size_t m = 0; m < strnlen(line, K55_MAX_STRING_LEN); m++) {
     if (line[m] == '-') {
       addr_last_occurance_line_index = m;
     }
@@ -295,7 +295,7 @@ bool SCI::Injector::proc_inject(long target_process_identifier) {
 
   ext.address = parser.parse_process_id_maps(target_pid);
 
-  payload_shell_size = strlen(__shellcode__);
+  payload_shell_size = strnlen(__shellcode__, K55_MAX_STRING_LEN);
   final_payload = (uint64_t *)__shellcode__;
 
   std::cout << "-> Injecting Shellcode (payload) @ 0x" << std::hex << ext.address << '\n';
