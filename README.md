@@ -1,4 +1,7 @@
 ## K55 - Linux x86_64 Process Injection Utility (C++11)
+
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/2d300ef4516041178faab44fc2544571)](https://app.codacy.com/gh/josh0xA/K55?utm_source=github.com&utm_medium=referral&utm_content=josh0xA/K55&utm_campaign=Badge_Grade)
+
 <p align="center">
   <img src="https://github.com/josh0xA/K55/blob/main/imgs/k55logo.png?raw=true">
 </p>
