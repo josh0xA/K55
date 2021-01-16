@@ -39,7 +39,7 @@ Obviously, ``ptrace(PTRACE_POKETEXT...)`` calls are not the most disguised. So, 
 ## Crafting The Shell Payload
 Note: The following is a demonstration. The payload string is already hardcoded into K55.
 
-#### Assembly Implementation of The Payload ([Cited from shell-storm (redirect)](http://shell-storm.org/shellcode/files/shellcode-806.php))
+### Assembly Implementation of The Payload ([Cited from shell-storm (redirect)](http://shell-storm.org/shellcode/files/shellcode-806.php))
 ```asm
 main:
     xor eax, eax
