@@ -42,6 +42,9 @@ namespace UTL {
     */
     bool is_process_id_alive(k55_process target_id);
 
+
+    k55_process proc_id;
+
   protected:
     _K55_STATE_BOUND default_status;
 

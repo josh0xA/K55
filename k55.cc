@@ -19,7 +19,6 @@ int main(int argc, const char* argv[]) {
   Utility utl;
   User usr;
 
-  k55_short_process proc_id;
 
   if (usr.root_privileges()) {
     if (argc < K55_MIN_ARGUMENT_COUNT) {
@@ -33,9 +32,10 @@ int main(int argc, const char* argv[]) {
     }
     std::cout << "---------------------------------------------------\n";
     // Error handling already heavily implemented within proc_inject(long)
-    if (proc_id = utl.get_process_id_by_name(argv[1])) {
+
+    if (utl.proc_id = utl.get_process_id_by_name(argv[1])) {
       std::cout << "-> Target Process: " << argv[1] << '\n';
-      inj.proc_inject(proc_id);
+      inj.proc_inject(utl.proc_id);
     }
   } else {
       std::cerr << "You must be running K55 as a root user.\n";

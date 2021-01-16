@@ -28,7 +28,6 @@
 
 typedef char* n_buffer;
 typedef long k55_process;
-typedef short k55_short_process;
 typedef DIR *k55_system_dir;
 
 inline bool k55_success_on_return_value(bool s_value) {
