@@ -1,6 +1,12 @@
 ## K55 - Linux x86_64 Process Injection Utility (C++11)
+
 <p align="center">
   <img src="https://github.com/josh0xA/K55/blob/main/imgs/k55logo.png?raw=true">
+</p>
+
+<p align="center">
+<a href="https://www.codacy.com/gh/josh0xA/K55/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=josh0xA/K55&amp;utm_campaign=Badge_Grade"><img src="https://app.codacy.com/project/badge/Grade/5601be2ff0bb47feae3090d098cec01f"/></a>
+<a href="https://lbesson.mit-license.org/" target="_blank"><img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="lisence" /></a>
 </p>
 
 ## About K55 
@@ -8,10 +14,10 @@
 The K55 payload injection tool is used for injecting x86_64 shellcode payloads into running processes. The utility was developed using modern C++11 techniques as well as some traditional C linux functions like ``ptrace()``. The shellcode spawned in the target process is 27 bytes and it executes /bin/sh (spawns a bash shell) within the target's address space. In the future, I will allow users to input there own shellcode via command line arguments.<br/>
 
 ## Installation
-1. ``git clone https://github.com/josh0xA/K55.git``<br/>
-2. ``cd K55``<br/>
-3. ``chmod +x build-install.sh``<br/>
-4. ``./build-install.sh``<br/>
+1.  ``git clone https://github.com/josh0xA/K55.git``<br/>
+2.  ``cd K55``<br/>
+3.  ``chmod +x build-install.sh``<br/>
+4.  ``./build-install.sh``<br/>
 
 ## K55 Usage
 ``Usage: ./K55 <process-name>``<br/>
@@ -19,7 +25,7 @@ The K55 payload injection tool is used for injecting x86_64 shellcode payloads i
 
 ### Tests
 Test 1) In one terminal (K55/ Directory), run: ``./k55_example_process/k55_test_process``<br/>
-Test 2) In another terminal, run the injector: ``./K55 k55_test_process``<br/>
+Test 2) In another terminal, run the injector: ``sudo ./K55 k55_test_process``<br/>
 
 ## K55 In Action
 - A shell is spawned in k55_test_process when the K55 shellcode injector is ran (as root). 
@@ -39,7 +45,7 @@ Obviously, ``ptrace(PTRACE_POKETEXT...)`` calls are not the most disguised. So, 
 ## Crafting The Shell Payload
 Note: The following is a demonstration. The payload string is already hardcoded into K55.
 
-#### Assembly Implementation of The Payload ([Cited from shell-storm (redirect)](http://shell-storm.org/shellcode/files/shellcode-806.php))
+### Assembly Implementation of The Payload ([Cited from shell-storm (redirect)](http://shell-storm.org/shellcode/files/shellcode-806.php))
 ```asm
 main:
     xor eax, eax
