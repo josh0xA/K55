@@ -50,6 +50,7 @@ namespace SCI {
     _K55_STATE_BOUND default_status;
   }; // class Kernel
 
+  template <class T>
   class Process : protected Kernel {
   public:
     /*
@@ -58,13 +59,13 @@ namespace SCI {
     @param - proc:default - true
     @return k55_process
     */
-    k55_process return_maximum_process_id(bool proc);
+    k55_process return_maximum_process_id(T proc);
     /*
     Retrieves code exec flags from the file map: looking for r-xp
     @param - process_line (char*)
     @return char*
     */
-    char* return_file_permissions(char* process_line);
+    T* return_file_permissions(T* process_line);
 
   private:
     std::ifstream process_id_file;
@@ -79,6 +80,7 @@ namespace SCI {
 
   }; // class Process
 
+  template <class T>
   class Parser : protected Kernel {
   public:
     /*
@@ -86,13 +88,13 @@ namespace SCI {
     @param - line (char*)
     @return long
     */
-    long retrieve_memory_address(char* line);
+    long retrieve_memory_address(T* line);
     /*
     Parse the /proc/ID/maps directory of the process
     @param - target_process_identifier (long)
     @return long
     */
-    long parse_process_id_maps(long target_process_identifier);
+    T parse_process_id_maps(T target_process_identifier);
 
   private:
     int addr_last_occurance_line_index = -1;
@@ -101,7 +103,7 @@ namespace SCI {
 
     std::size_t name_length_file, maps_line_length;
 
-    char* maps_line = NULL;
+    T* maps_line = NULL;
     // TODO: Implement std::ifstream with std::getline rather than, C-style getline
     FILE* maps_file;
 

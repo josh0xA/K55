@@ -27,6 +27,7 @@
 #define X86_MAX_PROCESS_ID_VALUE 32768
 
 typedef char* n_buffer;
+typedef const char _cchar;
 typedef long k55_process;
 typedef DIR *k55_system_dir;
 
