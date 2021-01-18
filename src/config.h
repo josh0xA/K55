@@ -23,8 +23,8 @@
 
 #define SET_DEBUG_VALUE(s_val, k_val) ((s_val) = (k_val))
 
-#define X86_64_MAX_PROCESS_ID_VALUE 4194304
-#define X86_MAX_PROCESS_ID_VALUE 32768
+constexpr long __x86_64_max_process_id_value__ = 4194304;
+constexpr long __x86_max_process_id_value__  = 32768;
 
 typedef char* n_buffer;
 typedef const char _cchar;
