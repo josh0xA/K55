@@ -147,7 +147,6 @@ k55_process SCI::Process<T>::return_maximum_process_id(T proc) {
   return max_process_id;
 }
 
-
 template <class T>
 T* SCI::Process<T>::return_file_permissions(T* process_line) {
   SCI::extension ext;
