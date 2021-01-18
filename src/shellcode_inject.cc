@@ -100,19 +100,19 @@ k55_process SCI::Process<T>::return_maximum_process_id(T proc) {
     if (e.code() == std::make_error_condition(std::io_errc::stream)) {
       std::cerr << "File Stream Error\n";
 #if defined(__x86_64__)
-      return X86_64_MAX_PROCESS_ID_VALUE;
+      return __x86_64_max_process_id_value__;
 #endif
 #if defined(__i386__)
-      return X86_MAX_PROCESS_ID_VALUE;
+      return __x86_max_process_id_value__;
 #endif
     }
     else {
       std::cerr << e.what() << '\n';
 #if defined(__x86_64__)
-      return X86_64_MAX_PROCESS_ID_VALUE;
+      return __x86_64_max_process_id_value__;
 #endif
 #if defined(__i386__)
-      return X86_MAX_PROCESS_ID_VALUE;
+      return __x86_max_process_id_value__;
 #endif
     }
   }
@@ -135,10 +135,10 @@ k55_process SCI::Process<T>::return_maximum_process_id(T proc) {
     std::cerr << "Cannot parse: " + max_process_id_file_path << '\n';
 
 #if defined(__x86_64__)
-      max_process_id = X86_64_MAX_PROCESS_ID_VALUE;
+      max_process_id = __x86_64_max_process_id_value__;
 #endif
 #if defined(__i386__)
-      max_process_id = X86_MAX_PROCESS_ID_VALUE;
+      max_process_id = __x86_max_process_id_value__;
 #endif
   }
 
@@ -146,6 +146,7 @@ k55_process SCI::Process<T>::return_maximum_process_id(T proc) {
   process_id_file.close();
   return max_process_id;
 }
+
 
 template <class T>
 T* SCI::Process<T>::return_file_permissions(T* process_line) {
