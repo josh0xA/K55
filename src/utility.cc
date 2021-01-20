@@ -16,7 +16,7 @@
 
  k55_process UTL::Utility::get_process_id_by_name(const std::string& process_name)
  {
-   default_status = n_invalid_var_any;
+   default_status = cfg::n_invalid_var_any;
 
    process_directory = opendir("/proc");
    process_id = K55_STANDARD_ERROR_CODE;
@@ -31,7 +31,7 @@
          std::ifstream command_file(command_path.c_str());
          std::getline(command_file, command_line);
 
-         if (k55_error_on_return_value(command_line.empty())) {
+         if (cfg::k55_error_on_return_value(command_line.empty())) {
            std::size_t position = command_line.find('\0');
 
            if (position != std::string::npos)
@@ -48,7 +48,7 @@
        }
      }
    } else {
-     SET_DEBUG_VALUE(default_status, __n_get_proc_id_fatal__);
+     SET_DEBUG_VALUE(default_status, cfg::__n_get_proc_id_fatal__);
      return default_status;
    }
    if (closedir(process_directory)) { throw std::runtime_error(std::strerror(errno)); }
@@ -56,11 +56,11 @@
 }
 
 bool UTL::Utility::is_process_id_alive(k55_process target_id) {
-  default_status = n_invalid_var_any;
+  default_status = cfg::n_invalid_var_any;
   std::string formatter = std::string("/proc/") + std::to_string(target_id);
   if (formatter.find('-') != std::string::npos) {
     if (stat(formatter.c_str(), &sts) == K55_STANDARD_ERROR_CODE && errno == ENOENT)
-      SET_DEBUG_VALUE(default_status, __n_process_non_existent__);
+      SET_DEBUG_VALUE(default_status, cfg::__n_process_non_existent__);
       return false;
   }
   return true;

@@ -47,7 +47,7 @@ namespace SCI {
     int v_counter = 0;
 
   protected:
-    _K55_STATE_BOUND default_status;
+    cfg::_K55_STATE_BOUND default_status;
   }; // class Kernel
 
   template <class T>

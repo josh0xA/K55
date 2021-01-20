@@ -46,7 +46,7 @@ namespace UTL {
     k55_process proc_id;
 
   protected:
-    _K55_STATE_BOUND default_status;
+    cfg::_K55_STATE_BOUND default_status;
 
 
   }; // class Utility

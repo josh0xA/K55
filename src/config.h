@@ -23,69 +23,71 @@
 
 #define SET_DEBUG_VALUE(s_val, k_val) ((s_val) = (k_val))
 
-constexpr long __x86_64_max_process_id_value__ = 4194304;
-constexpr long __x86_max_process_id_value__  = 32768;
-
 typedef char* n_buffer;
 typedef const char _cchar;
 typedef long k55_process;
 typedef DIR *k55_system_dir;
 
-inline bool k55_success_on_return_value(bool s_value) {
-  /*
-   For univeral conditional use if true
-   @param bool, value to test
-   @return bool
-  */
-  return (s_value == true);
+namespace cfg {
+  constexpr long __x86_64_max_process_id_value__ = 4194304;
+  constexpr long __x86_max_process_id_value__  = 32768;
+
+  inline bool k55_success_on_return_value(bool s_value) {
+    /*
+     For univeral conditional use if true
+     @param bool, value to test
+     @return bool
+    */
+    return (s_value == true);
+  }
+
+  inline bool k55_error_on_return_value(bool s_value) {
+    /*
+      For universal conditional use if false
+      @param bool, value to test
+      @return bool
+    */
+    return (s_value == false);
+  }
+
+  typedef enum _K55_STATE_BOUND
+  {
+    n_invalid_var_any = -1,
+
+    n_success_state,
+
+    __n_get_proc_id_fatal__,
+
+    __n_process_non_existent__,
+
+    __n_read_directory_fatal__,
+
+    __n_value_parse_fatal__,
+
+    __n_get_line_permissions_fatal__,
+
+    __n_heap_alloc_fatal__,
+
+    __n_snprintf_fatal__,
+
+    __n_file_map_parser_fatal__,
+
+    __n_get_addr_fatal__,
+
+    __n_ptrace_attach_fatal__,
+
+    __n_ptrace_poketext_fatal__,
+
+    __n_copy_memory_fatal__,
+
+    __n_get_registers_fatal__,
+
+    __n_set_registers_fatal__,
+
+    __n_ptrace_cont_syscall_fatal__,
+
+  } K55_STATE_BOUND, *P_K55_STATE_BOUND;
+
 }
-
-inline bool k55_error_on_return_value(bool s_value) {
-  /*
-    For universal conditional use if false
-    @param bool, value to test
-    @return bool
-  */
-  return (s_value == false);
-}
-
-typedef enum _K55_STATE_BOUND
-{
-  n_invalid_var_any = -1,
-
-  n_success_state,
-
-  __n_get_proc_id_fatal__,
-
-  __n_process_non_existent__,
-
-  __n_read_directory_fatal__,
-
-  __n_value_parse_fatal__,
-
-  __n_get_line_permissions_fatal__,
-
-  __n_heap_alloc_fatal__,
-
-  __n_snprintf_fatal__,
-
-  __n_file_map_parser_fatal__,
-
-  __n_get_addr_fatal__,
-
-  __n_ptrace_attach_fatal__,
-
-  __n_ptrace_poketext_fatal__,
-
-  __n_copy_memory_fatal__,
-
-  __n_get_registers_fatal__,
-
-  __n_set_registers_fatal__,
-
-  __n_ptrace_cont_syscall_fatal__,
-
-} K55_STATE_BOUND, *P_K55_STATE_BOUND;
-
 
 #endif
