@@ -85,8 +85,8 @@ bool SCI::Kernel::retrieve_system_kernel_information() {
   return true;
 }
 
-template <class T>
-k55_process SCI::Process<T>::return_maximum_process_id(T proc) {
+template <typename _k55_type>
+k55_process SCI::Process<_k55_type>::return_maximum_process_id(_k55_type proc) {
 
   default_status = cfg::n_invalid_var_any;
 
@@ -147,8 +147,8 @@ k55_process SCI::Process<T>::return_maximum_process_id(T proc) {
   return max_process_id;
 }
 
-template <class T>
-T* SCI::Process<T>::return_file_permissions(T* process_line) {
+template <typename _k55_type>
+_k55_type* SCI::Process<_k55_type>::return_file_permissions(_k55_type* process_line) {
   SCI::extension ext;
   default_status = cfg::n_invalid_var_any;
 
@@ -180,8 +180,8 @@ T* SCI::Process<T>::return_file_permissions(T* process_line) {
   return NULL;
 }
 
-template <class T>
-long SCI::Parser<T>::retrieve_memory_address(T* line) {
+template <typename _k55_type>
+long SCI::Parser<_k55_type>::retrieve_memory_address(_k55_type* line) {
   SCI::extension ext;
   default_status = cfg::n_invalid_var_any;
 
@@ -197,7 +197,7 @@ long SCI::Parser<T>::retrieve_memory_address(T* line) {
     return K55_STANDARD_ERROR_CODE;
   }
 
-  T* addrline = new (std::nothrow) char[addr_last_occurance_line_index + 1];
+  _k55_type* addrline = new (std::nothrow) _k55_type[addr_last_occurance_line_index + 1];
   if (addrline == nullptr) {
     SET_DEBUG_VALUE(default_status, cfg::__n_heap_alloc_fatal__);
     std::cerr << "Dynamic Allocation - fatal\n";
@@ -214,8 +214,8 @@ long SCI::Parser<T>::retrieve_memory_address(T* line) {
   return ext.address;
 }
 
-template <class T>
-T SCI::Parser<T>::parse_process_id_maps(T target_process_identifier) {
+template <typename _k55_type>
+_k55_type SCI::Parser<_k55_type>::parse_process_id_maps(_k55_type target_process_identifier) {
 
   SCI::Process<char> proc;
 
@@ -227,7 +227,7 @@ T SCI::Parser<T>::parse_process_id_maps(T target_process_identifier) {
 
   name_length_file = PROCESS_ID_MAX_STRING_LENGTH + 12;
   // Allocate heap space for the file name of the proc map
-  T* maps_file_name = reinterpret_cast<long int*> (new (std::nothrow) char[name_length_file]);
+  _k55_type* maps_file_name = reinterpret_cast<long int*> (new (std::nothrow) _k55_type[name_length_file]);
   //maps_f_name_path = std::string("/proc/") + std::string(target_process_identifier) + std::string("/maps");
   if (std::snprintf(reinterpret_cast<char*>(maps_file_name), name_length_file, "/proc/%ld/maps", target_process_identifier) < K55_STANDARD_SUCCESS_CODE) {
     SET_DEBUG_VALUE(default_status, cfg::__n_snprintf_fatal__);

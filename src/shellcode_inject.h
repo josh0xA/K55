@@ -50,7 +50,7 @@ namespace SCI {
     cfg::_K55_STATE_BOUND default_status;
   }; // class Kernel
 
-  template <class T>
+  template <typename _k55_type>
   class Process : protected Kernel {
   public:
     /*
@@ -59,13 +59,13 @@ namespace SCI {
     @param - proc:default - true
     @return k55_process
     */
-    k55_process return_maximum_process_id(T proc);
+    k55_process return_maximum_process_id(_k55_type proc);
     /*
     Retrieves code exec flags from the file map: looking for r-xp
     @param - process_line (char*)
     @return char*
     */
-    T* return_file_permissions(T* process_line);
+    _k55_type* return_file_permissions(_k55_type* process_line);
 
   private:
     std::ifstream process_id_file;
@@ -80,7 +80,7 @@ namespace SCI {
 
   }; // class Process
 
-  template <class T>
+  template <typename _k55_type>
   class Parser : protected Kernel {
   public:
     /*
@@ -88,13 +88,13 @@ namespace SCI {
     @param - line (char*)
     @return long
     */
-    long retrieve_memory_address(T* line);
+    long retrieve_memory_address(_k55_type* line);
     /*
     Parse the /proc/ID/maps directory of the process
     @param - target_process_identifier (long)
     @return long
     */
-    T parse_process_id_maps(T target_process_identifier);
+    _k55_type parse_process_id_maps(_k55_type target_process_identifier);
 
   private:
     int addr_last_occurance_line_index = -1;
@@ -103,7 +103,7 @@ namespace SCI {
 
     std::size_t name_length_file, maps_line_length;
 
-    T* maps_line = NULL;
+    _k55_type* maps_line = NULL;
     // TODO: Implement std::ifstream with std::getline rather than, C-style getline
     FILE* maps_file;
 
@@ -123,6 +123,7 @@ namespace SCI {
     std::size_t payload_shell_size;
 
     uint64_t* final_payload;
+
 
   }; // class Injector
 
