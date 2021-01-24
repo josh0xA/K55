@@ -30,7 +30,7 @@ typedef DIR *k55_system_dir;
 
 namespace cfg {
   constexpr long __x86_64_max_process_id_value__ = 4194304;
-  constexpr long __x86_max_process_id_value__  = 32768;
+  constexpr long __x86_max_process_id_value__  = std::numeric_limits<short>::max() + 1;
 
   inline bool k55_success_on_return_value(bool s_value) {
     /*
