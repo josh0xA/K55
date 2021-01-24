@@ -10,6 +10,7 @@
 
 #include "shellcode_inject.h"
 #include "utility.h"
+#include "exception/k55exception.h"
 
 #pragma region ShellRegion
 
@@ -48,7 +49,7 @@ std::string max_process_id_file_path = "/proc/sys/kernel/pid_max";
 
 char* SCI::Kernel::retrieve_machine_architecture() {
   if (uname(&utsbuffer) != K55_STANDARD_SUCCESS_CODE) {
-    throw std::runtime_error("uname() - fatal");
+    throw exception::K55Exception("uname() - fatal");
   } else {
       return utsbuffer.machine;
   }
@@ -59,7 +60,7 @@ bool SCI::Kernel::retrieve_system_kernel_information() {
   SCI::Kernel kn;
 
   if (uname(&utsbuffer) != K55_STANDARD_SUCCESS_CODE) {
-    throw std::runtime_error("uname() - fatal");
+    throw exception::K55Exception("uname() - fatal");
     return false;
   } else {
     std::cout << "System Name: " << utsbuffer.sysname << '\n' <<
@@ -98,7 +99,7 @@ k55_process SCI::Process<_k55_type>::return_maximum_process_id(_k55_type proc) {
   }
   catch (const std::ifstream::failure& e) {
     if (e.code() == std::make_error_condition(std::io_errc::stream)) {
-      std::cerr << "File Stream Error\n";
+      throw exception::K55Exception("File Stream Error\n");
 #if defined(__x86_64__)
       return cfg::__x86_64_max_process_id_value__;
 #endif
@@ -124,7 +125,7 @@ k55_process SCI::Process<_k55_type>::return_maximum_process_id(_k55_type proc) {
   if (process_id_file.is_open()) {
     if (!std::getline(process_id_file, line, '\n')) {
       SET_DEBUG_VALUE(default_status, cfg::__n_read_directory_fatal__);
-      std::cerr << "std::getline(pid_max, ...) - fatal\n";
+      throw exception::K55Exception("std::getline(pid_max, ...) - fatal\n");
       return K55_STANDARD_ERROR_CODE;
     }
   }
@@ -132,7 +133,7 @@ k55_process SCI::Process<_k55_type>::return_maximum_process_id(_k55_type proc) {
   max_process_id = std::atol(line.c_str());
   if (max_process_id == 0) {
     SET_DEBUG_VALUE(default_status, cfg::__n_value_parse_fatal__);
-    std::cerr << "Cannot parse: " + max_process_id_file_path << '\n';
+    std::cerr << "Cannot parse: " << max_process_id_file_path << '\n';
 
 #if defined(__x86_64__)
       max_process_id = cfg::__x86_64_max_process_id_value__;
@@ -167,7 +168,7 @@ _k55_type* SCI::Process<_k55_type>::return_file_permissions(_k55_type* process_l
 
     ext.permissions = new (std::nothrow) char[process_space_b - process_space_a];
     if (ext.permissions == nullptr) {
-      std::cerr << "nullptr exception\n";
+      throw exception::K55Exception("nullptr exception\n");
       return NULL;
     }
 
@@ -193,14 +194,14 @@ long SCI::Parser<_k55_type>::retrieve_memory_address(_k55_type* line) {
 
   if (addr_last_occurance_line_index == K55_STANDARD_ERROR_CODE) {
     SET_DEBUG_VALUE(default_status, cfg::__n_value_parse_fatal__);
-    std::cerr << "Parsing our from line: " << line << '\n';
+    std::cerr << "Parsing error from line: " << line << '\n';
     return K55_STANDARD_ERROR_CODE;
   }
 
   _k55_type* addrline = new (std::nothrow) _k55_type[addr_last_occurance_line_index + 1];
   if (addrline == nullptr) {
     SET_DEBUG_VALUE(default_status, cfg::__n_heap_alloc_fatal__);
-    std::cerr << "Dynamic Allocation - fatal\n";
+    throw exception::K55Exception("Dynamic Allocation - fatal\n");
     return K55_STANDARD_ERROR_CODE;
   }
 
@@ -231,13 +232,13 @@ _k55_type SCI::Parser<_k55_type>::parse_process_id_maps(_k55_type target_process
   //maps_f_name_path = std::string("/proc/") + std::string(target_process_identifier) + std::string("/maps");
   if (std::snprintf(reinterpret_cast<char*>(maps_file_name), name_length_file, "/proc/%ld/maps", target_process_identifier) < K55_STANDARD_SUCCESS_CODE) {
     SET_DEBUG_VALUE(default_status, cfg::__n_snprintf_fatal__);
-    std::cerr << "snprint() - fatal\n";
+    throw exception::K55Exception("snprint() - fatal\n");
     return K55_STANDARD_ERROR_CODE;
   }
 
   maps_file = fopen(reinterpret_cast<_cchar*>(maps_file_name), "r");
   if (maps_file == NULL) {
-    std::cerr << "File cannot be opened at this time\n";
+    throw exception::K55Exception("File cannot be opened at this time\n");
     return K55_STANDARD_ERROR_CODE;
   }
 
@@ -280,13 +281,13 @@ bool SCI::Injector::proc_inject(long target_process_identifier) {
   UTL::Utility utl;
 
   if (utl.is_process_id_alive(target_pid) == false) {
-      std::cerr << "Not a valid Process ID\n";
+      throw exception::K55Exception("Not a valid Process ID\n");
       return false;
   }
 
   if (ptrace(PTRACE_ATTACH, target_pid, NULL, NULL) < K55_STANDARD_SUCCESS_CODE) {
     SET_DEBUG_VALUE(default_status, cfg::__n_ptrace_attach_fatal__);
-    std::cerr << "Cannot attach to victim\n";
+    throw exception::K55Exception("Cannot attach to victim\n");
     return false;
   } else {
       wait(NULL);
@@ -297,7 +298,7 @@ bool SCI::Injector::proc_inject(long target_process_identifier) {
 
   if (ptrace(PTRACE_GETREGS, target_pid, NULL, &old_regs) < K55_STANDARD_SUCCESS_CODE) {
     SET_DEBUG_VALUE(default_status, cfg::__n_get_registers_fatal__);
-    std::cerr << "Cannot trace process registers\n";
+    throw exception::K55Exception("Cannot trace process registers\n");
     return false;
   }
 
@@ -318,9 +319,18 @@ bool SCI::Injector::proc_inject(long target_process_identifier) {
   }
   // Does not throw exceptions...
   std::memcpy(&regs, &old_regs, sizeof(struct user_regs_struct));
+
+#if defined(__i386__)
+  std::cout << "-> Jumping to EIP Address @ " << reinterpret_cast<void*> (regs.eip) << '\n';
+  // Set the 32-bit instrucion pointer to the mem address of execution
+  regs.eip = ext.address;
+#endif
+#if defined(__x86_64__)
   std::cout << "-> Jumping to RIP Address @ " << reinterpret_cast<void*> (regs.rip) << '\n';
   // Set the 64-bit instrucion pointer to the mem address of execution
   regs.rip = ext.address;
+#endif
+
 
   if (ptrace(PTRACE_SETREGS, target_pid, NULL, &regs) < K55_STANDARD_SUCCESS_CODE) {
     SET_DEBUG_VALUE(default_status, cfg::__n_set_registers_fatal__);
@@ -331,7 +341,7 @@ bool SCI::Injector::proc_inject(long target_process_identifier) {
   // Stop execution at the next sys-exit call
   if (ptrace(PTRACE_CONT, target_pid, NULL, NULL) < K55_STANDARD_SUCCESS_CODE) {
     SET_DEBUG_VALUE(default_status, cfg::__n_ptrace_cont_syscall_fatal__);
-    std::cerr << "ptrace_cont - fatal\n";
+    throw exception::K55Exception("ptrace_cont - fatal\n");
     return false;
   }
 
