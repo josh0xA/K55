@@ -1,4 +1,4 @@
-## K55 - Linux x86_64 Process Injection Utility (C++11)
+## K55 - Linux x86_64 Process Injection Utility (C++14)
 
 <p align="center">
   <img src="https://github.com/josh0xA/K55/blob/main/imgs/k55logo.png?raw=true">
